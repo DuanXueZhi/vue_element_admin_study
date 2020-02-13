@@ -94,7 +94,16 @@ module.exports = {
     config
       // https://webpack.js.org/configuration/devtool/#development
       .when(process.env.NODE_ENV === 'development',
-        config => config.devtool('cheap-source-map')
+        config => config.devtool('source-map')
+        // devtool【配置选项】           构建  重构建 生产环境     特性
+        // eval                         +++   +++     no      生成后的代码【开发】
+        // cheap-eval-source-map        +     ++      no      转换过的代码（仅限行）
+        // cheap-source-map             +     o       yes     转换过的代码（仅限行）
+        // cheap-module-eval-source-map o     ++      no      原始源码（仅限行）【开发环境推荐】{集成于文件中，不会产生列}
+        // cheap-module-source-map      o     -       yes     原始源码（仅限行）【生产环境推荐】{产生单独文件，不产生列}
+        // eval-source-map              --    +       yes     原始源码【vue-cli工程'开发'环境默认选项】{不产生单独文件，但可以显示行和列}
+        // source-map                   --    --      yes     原始源码【调试】【vue-cli工程'生产'环境默认选项】{产生单独文件，显示行和列}
+        // nosources-source-map         --    --      yes     无源码内容
       )
 
     config
