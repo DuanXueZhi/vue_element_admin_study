@@ -29,8 +29,11 @@ module.exports = {
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
-  devServer: {
+  devServer: { // 开发服务器
     port: port,
+    // progress: true, // 进度条
+    // contentBase: './build', // 启动后访问目录，默认是项目根目录，这个设置到打包后的目录
+    // compress: true, // 启动压缩
     open: true,
     overlay: {
       warnings: false,
