@@ -6,13 +6,13 @@ import 'nprogress/nprogress.css' // progress bar style
 import { getToken } from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 
-NProgress.configure({ showSpinner: false }) // NProgress Configuration
+NProgress.configure({ showSpinner: false }) // NProgress Configuration 【顶部右侧加载进度环】
 
-const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
+const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist 白名单
 
-router.beforeEach(async(to, from, next) => {
-  // start progress bar
-  NProgress.start()
+router.beforeEach(async(to, from, next) => { // 所有路由将经过该方法
+  // start progress bar【进度条】
+  NProgress.start() // 记得关闭 NProgress.done()
 
   // set page title
   document.title = getPageTitle(to.meta.title)
@@ -56,7 +56,7 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     /* has no token*/
-
+    // 白名单判断
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()
