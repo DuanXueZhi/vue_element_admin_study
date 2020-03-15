@@ -108,10 +108,24 @@ export const asyncRoutes = [
       }
     ]
   },
+  {
+    path: '/book',
+    component: Layout,
+    redirect: '/book/create',
+    meta: { title: '图书管理', icon: 'documentation', roles: ['admin'] },
+    children: [
+      {
+        path: '/book/create',
+        component: () => import('@/views/book/create'),
+        meta: { title: '上传图书', icon: 'edit', roles: ['admin'] }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
 
+// 创建路由
 const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
