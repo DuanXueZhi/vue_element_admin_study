@@ -23,7 +23,7 @@ router.beforeEach(async(to, from, next) => { // 所有路由将经过该方法
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
-      next({ path: '/' })
+      next({ path: '/' }) // 重定向到'/'同样要进入router.beforeEach拦截
       NProgress.done()
     } else {
       // determine whether the user has obtained his permission roles through getInfo
@@ -37,15 +37,16 @@ router.beforeEach(async(to, from, next) => { // 所有路由将经过该方法
           const { roles } = await store.dispatch('user/getInfo')
 
           // generate accessible routes map based on roles
-          const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
+          const accessRoutes = await store.dispatch('permission/generateRoutes', roles) // 判断身份生成动态路由
 
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)
+          // throw new Error('出错了') // test
 
           // hack method to ensure that addRoutes is complete
-          // set the replace: true, so the navigation will not leave a history record
-          next({ ...to, replace: true })
-        } catch (error) {
+          // set the replace: true, so the navigation will not leave a history record【不会保存新的history记录】
+          next({ ...to, replace: true }) // 【replace: true】回退以后直接到空白页面
+        } catch (error) { // 出错直接清空token并返回login
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
           Message.error(error || 'Has Error')
