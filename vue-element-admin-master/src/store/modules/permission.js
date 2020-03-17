@@ -6,7 +6,12 @@ import { asyncRoutes, constantRoutes } from '@/router'
  * @param route
  */
 function hasPermission(roles, route) {
-  if (route.meta && route.meta.roles) {
+  if (route.meta && route.meta.roles) { // meta: { roles: ['admin'] }
+    /**
+     * 当前用户身份数组：roles: ['admin', 'editor']
+     * 遍历当前用户身份：role: 'admin' and 'editor'
+     * 当前路由：route: meta: { title: 'xxx', icon: 'xxx', roles: ['admin', 'ccc'] }
+     */
     return roles.some(role => route.meta.roles.includes(role))
   } else {
     return true
@@ -41,21 +46,21 @@ const state = {
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
+    state.addRoutes = routes // 用：作缓存
+    state.routes = constantRoutes.concat(routes) // 用：侧边栏
   }
 }
 
 const actions = {
-  generateRoutes({ commit }, roles) {
+  generateRoutes({ commit }, roles) { // 生成路由
     return new Promise(resolve => {
       let accessedRoutes
-      if (roles.includes('admin')) {
+      if (roles.includes('admin')) { // 用户身份包含admin权限【默认全部访问】
         accessedRoutes = asyncRoutes || []
-      } else {
+      } else { // 用户身份不包含admin权限
         accessedRoutes = filterAsyncRoutes(asyncRoutes, roles)
       }
-      commit('SET_ROUTES', accessedRoutes)
+      commit('SET_ROUTES', accessedRoutes) // 将路由存储
       resolve(accessedRoutes)
     })
   }
