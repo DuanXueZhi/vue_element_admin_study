@@ -21,7 +21,7 @@ $subMenuHover:#001528;
 
 $sideBarWidth: 210px;
 
-// the :export directive is the magic sauce for webpack
+// the :export directive is the magic sauce for webpack 【可以js文件引用】
 // https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
 :export {
   menuText: $menuText;
