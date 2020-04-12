@@ -28,8 +28,8 @@ export default {
   components: { SidebarItem, Logo },
   computed: {
     ...mapGetters([
-      'permission_routes',
-      'sidebar'
+      'permission_routes', // 位置：'@/store/modules/permission.js'
+      'sidebar' // 位置：'@/store/modules/app.js'
     ]),
     activeMenu() {
       const route = this.$route
