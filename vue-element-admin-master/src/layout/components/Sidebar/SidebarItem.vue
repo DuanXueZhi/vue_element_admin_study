@@ -1,17 +1,20 @@
 <template>
   <div v-if="!item.hidden" class="menu-wrapper">
-    <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow">
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
-        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}">
-          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" />
+    <!-- 仅有一个子目录情况 -->
+    <template v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow"> <!-- 下拉 -->
+      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)"><!-- 跳转 -->
+        <el-menu-item :index="resolvePath(onlyOneChild.path)" :class="{'submenu-title-noDropdown':!isNest}"><!-- 菜单导航选项；isNest：下拉icon -->
+          <item :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)" :title="onlyOneChild.meta.title" /><!-- 返回svg-icon 和 span -->
         </el-menu-item>
       </app-link>
     </template>
 
+    <!-- 有多个子目录情况 -->
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
-      <template slot="title">
+      <template slot="title"><!-- 父路由展示 -->
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
       </template>
+      <!-- 组件调用循环使用，嵌套自身 -->
       <sidebar-item
         v-for="child in item.children"
         :key="child.path"
@@ -57,6 +60,7 @@ export default {
     return {}
   },
   methods: {
+    // 判断有没有children
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
@@ -75,7 +79,7 @@ export default {
 
       // Show parent if there are no child router to display
       if (showingChildren.length === 0) {
-        this.onlyOneChild = { ... parent, path: '', noShowingChildren: true }
+        this.onlyOneChild = { ... parent, path: '', noShowingChildren: true } // ...：将parent展开
         return true
       }
 
@@ -88,7 +92,7 @@ export default {
       if (isExternal(this.basePath)) {
         return this.basePath
       }
-      return path.resolve(this.basePath, routePath)
+      return path.resolve(this.basePath, routePath) // 将两者合并
     }
   }
 }
