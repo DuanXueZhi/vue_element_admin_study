@@ -12,7 +12,7 @@ export default {
       default: ''
     }
   },
-  render(h, context) {
+  render(h, context) { // 使用render函数完成渲染
     const { icon, title } = context.props
     const vnodes = []
 
