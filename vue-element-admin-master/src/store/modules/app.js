@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie'
 
 const state = {
-  sidebar: {
-    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true,
+  sidebar: { // https://www.youbaobao.xyz/admin-docs/guide/interactive/tech.html 前端开发高端操作
+    opened: Cookies.get('sidebarStatus') ? !!+Cookies.get('sidebarStatus') : true, // +：转换为数值，!!：转换为布尔型
     withoutAnimation: false
   },
   device: 'desktop',
