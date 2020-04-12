@@ -2,6 +2,7 @@
   <div :class="{'has-logo':showLogo}">
     <logo v-if="showLogo" :collapse="isCollapse" /><!-- 菜单栏顶部log -->
     <el-scrollbar wrap-class="scrollbar-wrapper">
+      <!-- unique-opened：是否允许展开多个菜单 -->
       <el-menu
         :default-active="activeMenu"
         :collapse="isCollapse"
