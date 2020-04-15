@@ -96,7 +96,7 @@ export default {
           this.otherQuery = this.getOtherQuery(query)
         }
       },
-      immediate: true
+      immediate: true // 在created时候调用
     }
   },
   mounted() {
@@ -135,7 +135,7 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              this.$router.push({ path: this.redirect || '/', query: this.otherQuery }) // 保存的redirect没有则跳转到'/'，并拼接其他参数
               this.loading = false
             })
             .catch(() => {
