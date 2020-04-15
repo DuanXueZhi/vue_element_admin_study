@@ -40,6 +40,11 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
+        /**
+         * *：表示匹配之后所有路由
+         * /redirect/book/create
+         * /redirect/book, 没有*只能匹配到一级
+         */
         path: '/redirect/:path*',
         component: () => import('@/views/redirect/index')
       }
