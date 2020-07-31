@@ -28,7 +28,7 @@ import variables from '@/styles/variables.scss'
 export default {
   components: { SidebarItem, Logo },
   computed: {
-    ...mapGetters([
+    ...mapGetters([ // mapGetters 辅助函数仅仅是将 store 中的 getter 映射到局部计算属性【mapState数据共用的格式化版本】
       'permission_routes', // 位置：'@/store/modules/permission.js'
       'sidebar' // 位置：'@/store/modules/app.js'
     ]),
