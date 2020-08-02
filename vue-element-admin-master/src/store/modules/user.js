@@ -129,8 +129,17 @@ const actions = {
 }
 
 export default {
-  namespaced: true,
+  namespaced: true, // 命名空间
   state,
   mutations,
   actions
 }
+
+/**
+ * 1.//通过使用 createNamespacedHelpers 创建基于某个命名空间辅助函数。
+     //它返回一个对象，对象里有新的绑定在给定命名空间值上的组件绑定辅助函数
+     import { createNamespacedHelpers } from "vuex";
+     const { mapState } = createNamespacedHelpers('命名空间名')
+ * 2.//在辅助函数mapState的第一参数上，填写上模块的命名空间名。根据挂载方式不同，此处的命名空间名就是 wechatType 或 aaa。
+    ...mapState('命名空间名', ["permissionList"])
+ */

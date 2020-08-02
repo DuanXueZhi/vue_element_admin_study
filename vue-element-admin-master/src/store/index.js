@@ -21,7 +21,7 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 // 创建vuex对象
 const store = new Vuex.Store({
   modules,
-  getters,
+  getters
   // strict: process.env.NODE_ENV !== 'production' // 严格模式，问题处理办法：https://vuex.vuejs.org/zh/guide/forms.html
 })
 
