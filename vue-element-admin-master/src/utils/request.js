@@ -3,6 +3,9 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
+// 设置url白名单
+// const whitUrl = ['/login', '/book/home/v2']
+
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
@@ -12,8 +15,14 @@ const service = axios.create({
 
 // request interceptor
 service.interceptors.request.use(
-  config => {
+  config => { // 拦截方法
     // do something before request is sent
+
+    // 白名单url拦截
+    // const url = config.url.replace(config.baseURL, '')
+    // if (whitUrl.some(wl => url === wl)) { // some()：检测数组中是否有元素等于url
+    //   return config
+    // }
 
     if (store.getters.token) {
       // let each request carry token
@@ -23,7 +32,7 @@ service.interceptors.request.use(
     }
     return config
   },
-  error => {
+  error => { // 异常处理
     // do something with request error
     console.log(error) // for debug
     return Promise.reject(error)
@@ -69,7 +78,7 @@ service.interceptors.response.use(
           })
         })
       }
-      return Promise.reject(new Error(res.message || 'Error'))
+      return Promise.reject(new Error(res.message || 'Error')) // 暴露给调用用户处理
     } else {
       return res
     }
@@ -81,7 +90,7 @@ service.interceptors.response.use(
       type: 'error',
       duration: 5 * 1000
     })
-    return Promise.reject(error)
+    return Promise.reject(error) // 暴露给调用用户处理
   }
 )
 
