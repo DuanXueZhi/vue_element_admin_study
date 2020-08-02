@@ -103,9 +103,9 @@ export default {
   },
   mounted() {
     if (this.loginForm.username === '') {
-      this.$refs.username.focus()
+      this.$refs.username.focus() // 聚焦
     } else if (this.loginForm.password === '') {
-      this.$refs.password.focus()
+      this.$refs.password.focus() // 聚焦
     }
   },
   methods: {
@@ -128,7 +128,7 @@ export default {
         this.passwordType = 'password'
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
+        this.$refs.password.focus() // 聚焦
       })
     },
     handleLogin() {
@@ -150,7 +150,7 @@ export default {
       })
     },
     getOtherQuery(query) {
-      return Object.keys(query).reduce((acc, cur) => {
+      return Object.keys(query).reduce((acc, cur) => { // reduce()迭代(acc：总, cur：每项)
         if (cur !== 'redirect') {
           acc[cur] = query[cur]
         }
