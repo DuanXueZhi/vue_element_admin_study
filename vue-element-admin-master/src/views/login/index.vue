@@ -22,6 +22,7 @@
       </el-form-item>
 
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+        <!-- manual：手动控制打开（capsTooltip） -->
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -39,6 +40,7 @@
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
           />
+          <!-- native：修饰符，在自定义标签上使用绑定事件，绑定到原生标签（input）上 -->
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -57,7 +59,7 @@ export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
+      if (!validUsername(value)) { // !value || value.length === 0
         callback(new Error('Please enter the correct user name'))
       } else {
         callback()
@@ -133,7 +135,7 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
-          this.$store.dispatch('user/login', this.loginForm)
+          this.$store.dispatch('user/login', this.loginForm) // user/login：因为开启了vuex命名空间
             .then(() => {
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery }) // 保存的redirect没有则跳转到'/'，并拼接其他参数
               this.loading = false
