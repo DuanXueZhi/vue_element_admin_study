@@ -103,6 +103,23 @@ export const constantRoutes = [
 ]
 
 /**
+ * 编程式路由：
+ * router.push(location, onComplete?, onAbort?) === <router-link :to="...">
+ *   字符串：router.push('home')
+ *   对象：router.push({ path: 'home' })
+ *   命名的路由：router.push({ name: 'user', params: { userId: '123' } })
+ *   带查询参数：router.push({ path: 'register', query: { plan: 'private' } })
+ *   path带参数：router.push({ path: `/user/${userId}` }) // params不生效
+ *  同样适用于router-link
+ * router.replace(location, onComplete?, onAbort?) 与 router.push相同
+ *   不同之处在于不会向history添加新纪录，而直接替换当前history记录
+ * router.got(n) 类似 window.history.go(n)
+ *   router.go(1) === history.forward() // 前进一步
+ *   router.go(-1) === history.back() // 后退一步
+ * push、replace、go在各类路由模式（history、hash和abstract）下表现一致
+ */
+
+/**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
  */
