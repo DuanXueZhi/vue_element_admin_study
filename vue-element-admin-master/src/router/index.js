@@ -36,7 +36,13 @@ import Layout from '@/layout'
 export const constantRoutes = [
   {
     path: '/redirect',
-    component: Layout,
+    component: Layout, // 基础模板，子页面都隶属于此模板，只是改变app-main标签内容
+    /**
+     * 单页面多路由区域操作：
+     * 1.主页面上写多个<router-view>标签
+     * 2.<router-view name="right">name对应components属性内容
+     * 3.路由中增加components属性，例: components: { left: helloWorld1, right: helloWorld2 }
+     */
     hidden: true,
     children: [
       {
@@ -74,6 +80,17 @@ export const constantRoutes = [
     path: '/',
     component: Layout,
     redirect: '/dashboard',
+    /**
+     * redirect：重定向
+     * 路由path: redirect: '/b'
+     * 路由名name: redirect: { name: 'helloWorld' }
+     * 方法：redirect: to => { // 方法接收 目标路由 作为参数 return 重定向的 字符串路径/路径对象 }
+     */
+    /**
+     * alias：别名
+     * url访问别名路径指向原页面，但是url没变（重定向要改变url）仅改变了<router-view>中的内容
+     * *注意：不要再根路径（path: '/'）中使用，否则无效
+     */
     children: [
       {
         path: 'dashboard',
