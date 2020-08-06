@@ -156,14 +156,28 @@ export const asyncRoutes = [
     alwaysShow: true,
     children: [
       {
-        path: '/book/create',
+        path: 'create',
         component: () => import('@/views/book/create'),
         meta: { title: '上传图书', icon: 'edit', roles: ['admin'] }
       },
       {
-        path: '/book/manage',
+        path: 'manage',
         component: () => import('@/views/book/create'),
         meta: { title: '图书管理', icon: 'edit', roles: ['editor'], activeMenu: '/book/create' }
+      }
+    ]
+  },
+  {
+    path: '/steps',
+    component: Layout,
+    meta: { title: '步骤条' },
+    alwaysShow: true,
+    children: [
+      {
+        path: 'scroll',
+        component: () => import('@/views/steps/scrollDome'),
+        name: 'StepsScroll',
+        meta: { title: '滚动联动' }
       }
     ]
   },
