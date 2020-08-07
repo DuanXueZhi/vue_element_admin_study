@@ -17,7 +17,10 @@ export default {
     const vnodes = []
 
     if (icon) {
+      // 默认element-admin icon
       vnodes.push(<svg-icon icon-class={icon}/>)
+      // 改为element-ui icon
+      vnodes.push(<i class={icon}></i>)
     }
 
     if (title) {
