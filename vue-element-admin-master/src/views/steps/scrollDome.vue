@@ -11,12 +11,16 @@
         <p v-for="(similarityItem, similarityIndex) in item.similarity" :key="similarityItem" style="font-weight: bold; padding: 20px;">{{ similarityIndex + 1 }}{{ similarityItem }}</p>
       </div>
     </div>
+    <back-to-top />
   </div>
 </template>
 
 <script>
+import BackToTop from '@/components/BackToTop'
+
 export default {
   name: 'ScrollDome',
+  components: { BackToTop },
   data() {
     return {
       activeStepItem: 1,
