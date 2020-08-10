@@ -134,8 +134,20 @@ module.exports = {
         use: [
           'style-loader', // 3.处理样式代码
           'css-loader', // 2.处理css代码
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true // 与已有的source-map合并，提高处理效率
+            }
+          },
           'stylus-loader' // 1.处理stylus代码 依赖于 stylus包
         ]
+      },
+
+      {
+        // 处理jsx文件
+        test: /\.jsx$/,
+        loader: 'babel-loader'
       }
     ]
   },

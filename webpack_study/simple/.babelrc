@@ -1,0 +1,10 @@
+{
+  "presets": [
+    "env",
+    "依赖于：babel-preset-env"
+  ],
+  "plugins": [
+    "transform-vue-jsx",
+    "依赖于：babel-plugin-transform-vue-jsx"
+  ]
+}
