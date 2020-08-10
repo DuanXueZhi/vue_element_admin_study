@@ -6,6 +6,7 @@ const { resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin') // html插件，为html引入外部资源script、link（动态添加后的hash、防止引用缓存）；生成html入口文件，配置N个html-webpack-plugin可以生成N个入口文件
 const history = require('connect-history-api-fallback')
 const convert = require('koa-connect')
+// const webpack = require('webpack')
 
 // 使用 WEBPACK_SERVE 环境变量检测当前是否是在 webpack-server 启动的开发环境中
 const dev = Boolean(process.env.WEBPACK_SERVE) // 检查逻辑对象是true还是false
@@ -151,6 +152,11 @@ module.exports = {
     但作为浏览器打开的入口 html, 是引用入口 js 的文件，它在整个编译过程的外面，
     所以，我们需要 html-webpack-plugin 来打包作为入口的 html 文件
     */
+    // new webpack.DefinePlugin({
+    //   'process.env': {
+    //     NODE_ENV: dev ? '"development"' : '"production"'
+    //   }
+    // }),
     new HtmlWebpackPlugin({
       /*
       template 参数指定入口 html 文件路径，插件会把这个文件交给 webpack 去编译，
@@ -198,4 +204,18 @@ if (dev) {
       app.use(convert(history()))
     }
   }
+  // module.exports.devServe = {
+  //   port: 8000,
+  //   host: '0.0.0.0', // localhost, 0.0.0.0 可以使用本机ip访问
+  //   overlay: {
+  //     errors: true // 显示错误
+  //   },
+  //   // open: true // 自动打开页面
+  //   // historyFallback: {}, // 映射路由地址
+  //   hot: true // 自动局部更新
+  // }
+  // module.exports.plugins.push(
+  //   new webpack.HotModuleReplacementPlugin(), // 启动热加载
+  //   new webpack.NoEmitOnErrorsPlugin() // 不需要信息展示
+  // )
 }
