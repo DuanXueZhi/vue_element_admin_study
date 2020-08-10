@@ -3,12 +3,12 @@
  * explain:
  * */
 const { resolve } = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin') // html插件，为html引入外部资源script、link（动态添加后的hash、防止引用缓存）；生成html入口文件，配置N个html-webpack-plugin可以生成N个入口文件
 const history = require('connect-history-api-fallback')
 const convert = require('koa-connect')
 
 // 使用 WEBPACK_SERVE 环境变量检测当前是否是在 webpack-server 启动的开发环境中
-const dev = Boolean(process.env.WEBPACK_SERVE)
+const dev = Boolean(process.env.WEBPACK_SERVE) // 检查逻辑对象是true还是false
 
 module.exports = {
   /*
@@ -26,7 +26,7 @@ module.exports = {
   devtool: dev ? 'cheap-module-eval-source-map' : 'hidden-source-map',
 
   // 配置页面入口 js 文件
-  entry: './src/index.js',
+  entry: './src/index.js', // join(__dirname, 'src/index.js') // path.join(), path.resolve()
 
   // 配置打包输出相关
   output: {
@@ -37,7 +37,7 @@ module.exports = {
     filename: 'index.js'
   },
 
-  module: {
+  module: { // 配置
     /*
     配置各种类型文件的加载器，称之为 loader
     webpack 当遇到 import ... 时，会调用这里配置的 loader 对引用的文件进行编译
@@ -82,6 +82,7 @@ module.exports = {
         css-loader 将 css 内容存为 js 字符串，并且会把 background, @font-face 等引用的图片，
         字体文件交给指定的 loader 打包，类似上面的 html-loader, 用什么 loader 同样在 loaders 对象中定义，等会下面就会看到。
         */
+        // loader: 'css-loader', // 改为use模式
         use: ['style-loader', 'css-loader']
       },
 
@@ -111,11 +112,28 @@ module.exports = {
         */
         use: [
           {
-            loader: 'url-loader',
+            loader: 'url-loader', // url-loader依赖于file-loader
             options: {
-              limit: 10000
+              limit: 10000,
+              name: '[name][.ext]' // name：当前文件名，.ext：当前文件扩展
             }
           }
+        ]
+      },
+
+      {
+        // 匹配vue文件
+        test: '/\.vue$/',
+        loader: 'vue-loader'
+      },
+
+      {
+        // css预处理器styl
+        test: /\.styl/,
+        use: [
+          'style-loader', // 3.处理样式代码
+          'css-loader', // 2.处理css代码
+          'stylus-loader' // 1.处理stylus代码 依赖于 stylus包
         ]
       }
     ]
