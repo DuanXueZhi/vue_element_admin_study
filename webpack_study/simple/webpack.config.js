@@ -7,6 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin') // html插件，为html
 const history = require('connect-history-api-fallback')
 const convert = require('koa-connect')
 // const webpack = require('webpack')
+const ExtractPlugin = require('extract-text-webpack-plugin')
 
 // 使用 WEBPACK_SERVE 环境变量检测当前是否是在 webpack-server 启动的开发环境中
 const dev = Boolean(process.env.WEBPACK_SERVE) // 检查逻辑对象是true还是false
@@ -35,7 +36,7 @@ module.exports = {
     path: resolve(__dirname, 'dist'),
 
     // 入口 js 的打包输出文件名
-    filename: 'index.js'
+    filename: 'index.[hash:8].js'
   },
 
   module: { // 配置
@@ -129,22 +130,6 @@ module.exports = {
       },
 
       {
-        // css预处理器styl
-        test: /\.styl/,
-        use: [
-          'style-loader', // 3.处理样式代码
-          'css-loader', // 2.处理css代码
-          {
-            loader: 'postcss-loader',
-            options: {
-              sourceMap: true // 与已有的source-map合并，提高处理效率
-            }
-          },
-          'stylus-loader' // 1.处理stylus代码 依赖于 stylus包
-        ]
-      },
-
-      {
         // 处理jsx文件
         test: /\.jsx$/,
         loader: 'babel-loader'
@@ -230,4 +215,49 @@ if (dev) {
   //   new webpack.HotModuleReplacementPlugin(), // 启动热加载
   //   new webpack.NoEmitOnErrorsPlugin() // 不需要信息展示
   // )
+
+  // 开发环境加入styl处理
+  module.exports.module.rules.push(
+    {
+      // css预处理器styl
+      test: /\.styl/,
+      use: [
+        'style-loader', // 3.处理样式代码
+        'css-loader', // 2.处理css代码
+        {
+          loader: 'postcss-loader',
+          options: {
+            sourceMap: true // 与已有的source-map合并，提高处理效率
+          }
+        },
+        'stylus-loader' // 1.处理stylus代码 依赖于 stylus包
+      ]
+    }
+  )
+} else {
+  /**
+   * 正式环境
+   */
+  module.exports.output.filename = '[name].[chunkhash:8].js'
+  module.exports.module.rules.push(
+    {
+      test: /\.styl$/,
+      use: ExtractPlugin.extract({
+        fallback: 'style-loader',
+        use: [
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourcemap: true
+            }
+          },
+          'stylus-loader'
+        ]
+      })
+    }
+  )
+  module.exports.plugins.push(
+    new ExtractPlugin('styles.[contentHash:8].css') // 指定输出文件名
+  )
 }
