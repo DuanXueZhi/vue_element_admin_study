@@ -2,11 +2,11 @@
  * Created by dxz-dev on 2020/1/18.
  * explain:
  * */
-const { resolve } = require('path')
+const { join, resolve } = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin') // html插件，为html引入外部资源script、link（动态添加后的hash、防止引用缓存）；生成html入口文件，配置N个html-webpack-plugin可以生成N个入口文件
 const history = require('connect-history-api-fallback')
 const convert = require('koa-connect')
-// const webpack = require('webpack')
+const webpack = require('webpack')
 const ExtractPlugin = require('extract-text-webpack-plugin')
 
 // 使用 WEBPACK_SERVE 环境变量检测当前是否是在 webpack-server 启动的开发环境中
@@ -238,7 +238,11 @@ if (dev) {
   /**
    * 正式环境
    */
-  module.exports.output.filename = '[name].[chunkhash:8].js'
+  module.exports.entry = {
+    app: join(__dirname, 'src/index.js'),
+    vendor: ['vue']
+  }
+  module.exports.output.filename = '[name].[chunkhash:8].js' // chunkhash：每个chunk（entry中声明的）有不同的hash vs hash：整个应用的hash
   module.exports.module.rules.push(
     {
       test: /\.styl$/,
@@ -258,6 +262,12 @@ if (dev) {
     }
   )
   module.exports.plugins.push(
-    new ExtractPlugin('styles.[contentHash:8].css') // 指定输出文件名
+    new ExtractPlugin('styles.[contentHash:8].css'), // 指定输出文件名
+    new webpack.optimize.CommonsChunkPlugin({ // 类库文件单独打包
+      name: 'vendor' // 与entry声明的文件名相同
+    }),
+    new webpack.optimize.CommonsChunkPlugin({ // 将webpack代码打包到单独的文件中（防止中间插入代码之后所有代码都要重新打包）
+      name: 'runtime' // 不能用entry中声明的名字
+    })
   )
 }
