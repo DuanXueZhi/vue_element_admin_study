@@ -22,7 +22,7 @@ const modules = modulesFiles.keys().reduce((modules, modulePath) => {
 const store = new Vuex.Store({
   modules,
   getters
-  // strict: process.env.NODE_ENV !== 'production' // 严格模式，问题处理办法：https://vuex.vuejs.org/zh/guide/forms.html
+  // strict: process.env.NODE_ENV !== 'production' // 严格模式，禁止通过state.xxx修改变量，问题处理办法：https://vuex.vuejs.org/zh/guide/forms.html
 })
 
 /**
