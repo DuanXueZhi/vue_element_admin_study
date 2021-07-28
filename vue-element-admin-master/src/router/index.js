@@ -50,9 +50,10 @@ export const constantRoutes = [
          * *：表示匹配之后所有路由
          * /redirect/book/create
          * /redirect/book, 没有*只能匹配到一级
+         * 获取方法：this.$route.params.path
          */
         path: '/redirect/:path*',
-        component: () => import('@/views/redirect/index')
+        component: () => import(/* webpackChunkName: "redirect" */ '@/views/redirect/index')
       }
     ]
   },
