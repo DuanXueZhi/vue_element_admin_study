@@ -27,7 +27,7 @@ const store = new Vuex.Store({
 
 /**
  * 成员列表
- * 1.state：存放状态
+ * 1.state：存放状态【严格模式下禁止通过state修改其成员】
     增删state中的成员：
       Vue.set(state, "age", 15)
       Vue.delete(state, 'age')
